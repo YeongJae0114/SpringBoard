@@ -34,7 +34,7 @@ public class SecurityConfig {
                 .securityContext(securityContext->securityContext.requireExplicitSave(false))
                 .cors(corsCustomizer -> corsCustomizer.configurationSource(request -> {
                     CorsConfiguration configuration = new CorsConfiguration();
-                    configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS")); // 필요한 메서드만 허용
+                    configuration.setAllowedMethods(List.of("GET", "POST", "PATCH", "DELETE", "OPTIONS")); // 필요한 메서드만 허용
                     configuration.setAllowCredentials(true); // 세션 기반 인증
                     configuration.setMaxAge(7200L); // Preflight 요청 캐싱
                     configuration.setAllowedHeaders(List.of("Authorization", "Content-Type", "Accept")); // 명시적으로 허용할 헤더

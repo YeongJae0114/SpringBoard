@@ -2,7 +2,7 @@ package com.toy.springboard.springboard.auth.service;
 
 import com.toy.springboard.springboard.auth.token.JwtProvider;
 import com.toy.springboard.springboard.auth.token.RefreshTokenRepository;
-import com.toy.springboard.springboard.exception.user.UserException;
+import com.toy.springboard.springboard.user.exception.UserException;
 import com.toy.springboard.springboard.auth.dto.LoginRequest;
 import com.toy.springboard.springboard.auth.dto.SignupRequest;
 import com.toy.springboard.springboard.auth.dto.TokenResponse;

@@ -1,7 +1,7 @@
 package com.toy.springboard.springboard.auth.service;
 
 import com.toy.springboard.springboard.auth.CustomUserDetails;
-import com.toy.springboard.springboard.exception.user.UserException;
+import com.toy.springboard.springboard.user.exception.UserException;
 import com.toy.springboard.springboard.user.entity.User;
 import com.toy.springboard.springboard.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

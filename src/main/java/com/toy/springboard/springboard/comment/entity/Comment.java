@@ -1,9 +1,8 @@
-package com.toy.springboard.springboard.post.entity;
+package com.toy.springboard.springboard.comment.entity;
 
-import com.toy.springboard.springboard.comment.entity.Comment;
 import com.toy.springboard.springboard.global.common.BaseEntity;
+import com.toy.springboard.springboard.post.entity.Post;
 import com.toy.springboard.springboard.user.entity.User;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -11,9 +10,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,36 +17,39 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
-public class Post extends BaseEntity {
+@AllArgsConstructor
+@NoArgsConstructor
+public class Comment extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String title;
-
     private String content;
 
+    // 댓글 작성자
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false) // FK 컬럼명 지정
+    @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Comment> comments = new ArrayList<>();
+    // 어떤 게시글에 달린 댓글인지
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "post_id")
+    private Post post;
 
+    // 연관관계 편의 메서드
     public void assignUser(User user) {
         this.user = user;
-        // 양방향 관계 설정
-        if (!user.getPosts().contains(this)) {
-            user.getPosts().add(this);
-        }
+        user.getComments().add(this);
     }
 
-    public Post updatePost(String title, String content){
-        this.title = title;
+    public void assignPost(Post post) {
+        this.post = post;
+        post.getComments().add(this);
+    }
+
+    // 댓글 수정
+    public void updateContent(String content) {
         this.content = content;
-        return this;
     }
 }

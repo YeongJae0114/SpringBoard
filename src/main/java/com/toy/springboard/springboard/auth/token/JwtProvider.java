@@ -10,19 +10,20 @@ import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 import java.security.Key;
+import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.CachingUserDetailsService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class JwtProvider {
     private final CustomUserDetailsService userDetailsService;
 
@@ -36,7 +37,8 @@ public class JwtProvider {
 
     @PostConstruct
     protected void init() {
-        this.secretKey = Keys.hmacShaKeyFor(secretKeyPlain.getBytes());
+        byte[] keyBytes = Base64.getDecoder().decode(secretKeyPlain);
+        this.secretKey = Keys.hmacShaKeyFor(keyBytes);
     }
 
     // 1. AccessToken 생성
@@ -84,6 +86,7 @@ public class JwtProvider {
             Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token);
             return true;
         } catch (JwtException | IllegalArgumentException e) {
+            log.error("JWT 유효성 검사 실패: {}", e.getMessage()); // 🔥 이유 정확히 확인 가능
             return false;
         }
     }

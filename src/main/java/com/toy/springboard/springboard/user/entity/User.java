@@ -1,5 +1,6 @@
 package com.toy.springboard.springboard.user.entity;
 
+import com.toy.springboard.springboard.comment.entity.Comment;
 import com.toy.springboard.springboard.global.common.BaseEntity;
 import com.toy.springboard.springboard.post.entity.Post;
 import jakarta.persistence.CascadeType;
@@ -11,6 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -39,5 +41,9 @@ public class User extends BaseEntity {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL , orphanRemoval = true)
     private List<Post> posts;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
+
 
 }
