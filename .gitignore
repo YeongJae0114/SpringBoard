@@ -53,4 +53,5 @@ Icon?
 .TemporaryItems
 
 # properties 설정파일 무시
-*.properties
+application-*.properties
+application-*.yml
